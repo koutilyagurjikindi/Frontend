@@ -1,20 +1,19 @@
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import React from 'react';
-import { store, history} from './store';
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux"
+import React from "react";
+import { createStore } from "redux";
+import App from "./App"
 
-import { Route, Switch } from 'react-router-dom';
-import { ConnectedRouter } from 'react-router-redux';
+const defaultstate = {
+  appName:"conduit",
+  articles:null
+};
 
-import App from './components/App';
+const reducer = function (state = defaultstate, action) {
+  return {...state}
+};
 
-ReactDOM.render((
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
-    </ConnectedRouter>
-  </Provider>
+const store = createStore(reducer);
 
-), document.getElementById('root'));
+
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById("root"));
