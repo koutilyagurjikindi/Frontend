@@ -2,7 +2,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 import React from "react";
-import {  createStore,applyMiddleware } from "redux";
+import {  applyMiddleware,createStore} from "redux";
 import { promiseMiddleware } from "./middleware";
 
 const defaultState = {
@@ -14,7 +14,7 @@ const reducer = function (state = defaultState, action) {
     case "HOME_PAGE_LOADED":
       return { ...state, articles: action.payload.articles };
     default:
-      return state;
+      return {...state}
   }
 };
 const store = createStore(reducer, applyMiddleware(promiseMiddleware));
