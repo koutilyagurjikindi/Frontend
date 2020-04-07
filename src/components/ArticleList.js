@@ -1,4 +1,5 @@
 import React from "react";
+import ArticlePreview from "./ArticlePreview";
 
 class ArticleList extends React.PureComponent {
   render() {
@@ -12,7 +13,7 @@ class ArticleList extends React.PureComponent {
     return (
       <div>
         {this.props.articles.map((article) => {
-          return <h1>{article.title}</h1>;
+          return <ArticlePreview article={article} key={article.slug} />;
         })}
       </div>
     );

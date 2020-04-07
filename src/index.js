@@ -1,19 +1,27 @@
+import App from "./App";
+import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux"
 import React from "react";
-import { createStore } from "redux";
-import App from "./App"
+import {  createStore,applyMiddleware } from "redux";
+import { promiseMiddleware } from "./middleware";
 
-const defaultstate = {
-  appName:"conduit",
-  articles:null
+const defaultState = {
+  appName: "conduit",
+  articles: null,
 };
-
-const reducer = function (state = defaultstate, action) {
-  return {...state}
+const reducer = function (state = defaultState, action) {
+  switch (action.type) {
+    case "HOME_PAGE_LOADED":
+      return { ...state, articles: action.payload.articles };
+    default:
+      return state;
+  }
 };
+const store = createStore(reducer, applyMiddleware(promiseMiddleware));
 
-const store = createStore(reducer);
-
-
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById("root"));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);

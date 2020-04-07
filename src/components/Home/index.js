@@ -1,23 +1,33 @@
-import React from "react"
-import MainView from "./MainView"
-import Banner from "./Banner"
-import {connect} from "react-redux"
+import React from "react";
+import MainView from "./MainView";
+import Banner from "./Banner";
+import agent from "../../agent";
+import { connect } from "react-redux";
 
-class Home extends React.PureComponent{
-  render(){
-    return(
+class Home extends React.PureComponent {
+  UNSAFE_componentWillMount() {
+    this.props.onLoad(agent.Articles.all(10));
+  }
+  render() {
+    return (
       <div className="home-page">
-        <Banner appName={this.props.appName}/>
-        <MainView/>
+        <Banner appName={this.props.appName} />
+        <MainView />
       </div>
-    )
+    );
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
-    appName: state.appName
-  }
+    appName: state.appName,
+  };
 }
 
-export default connect(mapStateToProps,()=>({}))(Home)
+function mapDispatchToProps(dispatch) {
+  return {
+    onLoad: (payload) => dispatch({ type: "HOME_PAGE_LOADED", payload }),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
