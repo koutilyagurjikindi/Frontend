@@ -1,12 +1,21 @@
 import React from "react";
 import MainView from "./MainView";
 import Banner from "./Banner";
-import agent from "../../agent";
 import { connect } from "react-redux";
+import Axios from "axios";
 
 class Home extends React.PureComponent {
   UNSAFE_componentWillMount() {
-    this.props.onLoad(agent.Articles.all(10));
+    Axios({
+      method:"GET",
+      url:"https://conduit.productionready.io/api/articles"
+    })
+    .then(response=>{
+      this.props.onLoad(response.data)
+    })
+    .catch(error=>{
+      console.log(error);
+    })
   }
   render() {
     return (

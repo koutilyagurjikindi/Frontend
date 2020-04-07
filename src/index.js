@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 import React from "react";
 import {  applyMiddleware,createStore} from "redux";
-import { promiseMiddleware } from "./middleware";
+import thunk from "redux-thunk"
 
 const defaultState = {
   appName: "conduit",
@@ -17,7 +17,7 @@ const reducer = function (state = defaultState, action) {
       return {...state}
   }
 };
-const store = createStore(reducer, applyMiddleware(promiseMiddleware));
+const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
