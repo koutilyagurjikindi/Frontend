@@ -1,27 +1,21 @@
-import App from "./App";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 import React from "react";
-import {  applyMiddleware,createStore} from "redux";
-import thunk from "redux-thunk"
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
+import reducer from "./store";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import App from "./App";
 
-const defaultState = {
-  appName: "conduit",
-  articles: null,
-};
-const reducer = function (state = defaultState, action) {
-  switch (action.type) {
-    case "HOME_PAGE_LOADED":
-      return { ...state, articles: action.payload.articles };
-    default:
-      return {...state}
-  }
-};
 const store = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" component={App} />
+      </Switch>
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );
