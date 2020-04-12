@@ -1,0 +1,202 @@
+import ListErrors from "../ListErrors";
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { getCommon, getlogin, gethomepage } from "../Action";
+import Axios from "axios";
+
+class SettingsForm extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      image: "",
+      username: "",
+      bio: "",
+      email: "",
+      password: "",
+    };
+
+    this.updateState = (field) => (ev) => {
+      const state = this.state;
+      const newState = Object.assign({}, state, { [field]: ev.target.value });
+      this.setState(newState);
+    };
+
+    this.submitForm = (ev) => {
+      ev.preventDefault();
+
+      const user = Object.assign({}, this.state);
+      if (!user.password) {
+        this.setState({password:""})
+        delete user.password;
+      }
+
+
+      this.props.onSubmitForm(user);
+    };
+  }
+
+  componentWillMount() {
+    if (this.props.currentUser) {
+      Object.assign(this.state, {
+        image: this.props.currentUser.image || "",
+        username: this.props.currentUser.username,
+        bio: this.props.currentUser.bio,
+        email: this.props.currentUser.email,
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentUser) {
+      this.setState(
+        Object.assign({}, this.state, {
+          image: nextProps.currentUser.image || "",
+          username: nextProps.currentUser.username,
+          bio: nextProps.currentUser.bio,
+          email: nextProps.currentUser.email,
+        })
+      );
+    }
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.submitForm}>
+        <fieldset>
+          <fieldset className="form-group">
+            <input
+              className="form-control"
+              type="text"
+              placeholder="URL of profile picture"
+              value={this.state.image}
+              onChange={this.updateState("image")}
+            />
+          </fieldset>
+
+          <fieldset className="form-group">
+            <input
+              className="form-control form-control-lg"
+              type="text"
+              placeholder="Username"
+              value={this.state.username}
+              onChange={this.updateState("username")}
+            />
+          </fieldset>
+
+          <fieldset className="form-group">
+            <textarea
+              className="form-control form-control-lg"
+              rows="8"
+              placeholder="Short bio about you"
+              value={this.state.bio||''}
+              onChange={this.updateState("bio")}
+            ></textarea>
+          </fieldset>
+
+          <fieldset className="form-group">
+            <input
+              className="form-control form-control-lg"
+              type="email"
+              placeholder="Email"
+              value={this.state.email}
+              onChange={this.updateState("email")}
+            />
+          </fieldset>
+
+          <fieldset className="form-group">
+            <input
+              className="form-control form-control-lg"
+              type="password"
+              placeholder="New Password"
+              value={this.state.password}
+              onChange={this.updateState("password")}
+            />
+          </fieldset>
+
+          <button
+            className="btn btn-lg btn-primary pull-xs-right"
+            type="submit"
+          >
+            Update Settings
+          </button>
+        </fieldset>
+      </form>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    OnSettingDetails: state.common,
+    OnSettingCommon: state.auth,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    OnSetting: bindActionCreators(getCommon, dispatch),
+    OnSettingAuth: bindActionCreators(getlogin,dispatch),
+    OnSettingHome: bindActionCreators(gethomepage,dispatch)
+  };
+}
+
+class Settings extends React.Component {
+  componentWillMount() {
+    console.log(this.props.OnSettingDetails,this.props.OnSettingCommon);
+  }
+  OnLogout=()=>{
+    window.localStorage.removeItem('jwt')
+    this.props.OnSetting({redirectTo:"/"})
+  }
+  OnSubmitSetting=(user)=>{
+    Axios({
+      method:'put',
+      url:"https://conduit.productionready.io/api/user",
+      headers:{
+        authorization: `Token ${this.props.OnSettingDetails.token}`
+      },
+      data:{
+        user:user
+      }
+    })
+    .then(response=>{
+      console.log(response)
+      this.props.OnSetting({currentUser:response.data.user})
+    })  
+    .catch(({response})=>{
+      this.props.OnSettingAuth({errors:response.data.errors})
+    })
+  }
+  render() {
+    return (
+      <div className="settings-page">
+        <div className="container page">
+          <div className="row">
+            <div className="col-md-6 offset-md-3 col-xs-12">
+              <h1 className="text-xs-center">Your Settings</h1>
+
+              <ListErrors errors={this.props.OnSettingCommon.errors}></ListErrors>
+
+              <SettingsForm
+                currentUser={this.props.OnSettingDetails.currentUser}
+                onSubmitForm={(user)=>{this.OnSubmitSetting(user)}} />
+
+              <hr />
+
+              <button
+                className="btn btn-outline-danger"
+                onClick={()=>this.OnLogout()}
+              >
+                Or click here to logout.
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

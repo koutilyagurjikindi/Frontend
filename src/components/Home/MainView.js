@@ -29,7 +29,7 @@ class MainView extends React.PureComponent {
 
 function mapStateToProps(state) {
   return {
-    articles: state.articles,
+    articles: state.home.articles,
   };
 }
 

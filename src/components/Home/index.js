@@ -1,8 +1,10 @@
 import React from "react";
 import MainView from "./MainView";
 import Banner from "./Banner";
-import { connect } from "react-redux";
+import { connect, } from "react-redux";
+import { bindActionCreators } from "redux"
 import Axios from "axios";
+import {gethomepage} from "../../Action"
 
 class Home extends React.PureComponent {
   UNSAFE_componentWillMount() {
@@ -29,13 +31,13 @@ class Home extends React.PureComponent {
 
 function mapStateToProps(state) {
   return {
-    appName: state.appName,
+    appName: state.common.appName,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLoad: (payload) => dispatch({ type: "HOME_PAGE_LOADED", payload }),
+    onLoad: bindActionCreators(gethomepage,dispatch),
   };
 }
 

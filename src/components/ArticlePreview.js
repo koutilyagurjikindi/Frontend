@@ -7,7 +7,7 @@ const ArticlePreview = props => {
     <div className="article-preview">
       <div className="article-meta">
         <a>
-          <img alt="" src={article.author.image} />
+          <img alt="image" src={article.author.image} />
         </a>
 
         <div className="info">
