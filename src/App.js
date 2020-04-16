@@ -7,10 +7,13 @@ import Login from "./components/Login";
 import { bindActionCreators } from "redux";
 import { getCommon } from "./Action";
 import {store} from "./index"
-import { push } from "connected-react-router";
+import {push} from "react-router-redux"
 import Axios from "axios";
 import Register from "./components/Register";
 import Setting from "./components/Setting";
+import Article from "./Article"
+import Profile from "./components/Profile";
+import ProfileFavorites from "./components/ProfileFavourites"
 
 class App extends React.PureComponent {
   componentWillMount(){
@@ -27,8 +30,8 @@ class App extends React.PureComponent {
       .then(response=>{
         this.props.OnCommon({currentUser:response.data.user})
       })
-      .catch(error=>{
-        console.log(error.response)
+      .catch(({response})=>{
+        console.log(response)
       })
     }
   }
@@ -47,6 +50,9 @@ class App extends React.PureComponent {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register}/>
           <Route path="/setting" component={Setting}/>
+          <Route path="/article/:id" component={Article} />
+          <Route path="/@:username/favorites" component={ProfileFavorites} />
+          <Route path="/@:username" component={Profile} />
         </Switch>
       </div>
     );
@@ -144,6 +150,52 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 //             </tbody>
 //           </table>
 
+//           {/* Forms  */}
+//         <hr></hr>
+//           <form>
+//             <label>first</label>
+//             <input type="text" />
+//             <lable>Second</lable>
+//             <input value={"30"} type="text"/>
+//           </form>
+
+//           {/* Large Text area */}
+//           <div>
+//             <textarea name="message"/>
+//           </div>
+
+//           <div>
+//             <label>Gender</label>
+//             <select name="Gender">
+//               <option value={"Male"}>Male</option>
+//               <option value={"Female"}>Female</option>
+//             </select>
+//           </div>
+//           <div>
+//             <label>Age</label>
+//             <input value="30" type={"number"} name={"age"}/>
+//           </div>
+//           <div>
+//             <label>BirthDay</label>
+//             <input  type={"date"} name={"BirthDay"}/>
+//           </div>
+//           <input type="submit" name="submit" value="Submit"/>
+
+//           {/* Button */}
+
+//           <button>Sign Up</button>
+
+//           {/* Image */}
+//           <a href={"https://i.pinimg.com/474x/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg"}>
+//           <img width={"200px"} height={"100px"}  src={"https://i.pinimg.com/474x/2e/2f/ac/2e2fac9d4a392456e511345021592dd2.jpg"} alt="my Image"/>
+//           </a>
+
+//           {/* Quotation */}
+//           <blockquote cite={"https://www.google.com"}> Google com</blockquote>
+
+//           <p>this is <abbr title="koutilya is a full stack developer">koutilya</abbr></p>
+          
+//           <p>this is <cite>how the world becoming</cite> </p>
 //           <div style={{marginTop:"500px"}}></div>
 //       </div>
 //     );
@@ -151,4 +203,3 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 // }
 
 
-// comment in html is <!-- html --->

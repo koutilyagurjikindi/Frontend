@@ -13,6 +13,7 @@ class Home extends React.PureComponent {
       url:"https://conduit.productionready.io/api/articles"
     })
     .then(response=>{
+      console.log(response)
       this.props.onLoad(response.data)
     })
     .catch(error=>{
