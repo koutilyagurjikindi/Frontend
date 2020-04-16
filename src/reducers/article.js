@@ -1,6 +1,7 @@
 const defaultState = {
   article:null,
-  comments:null
+  comments:null,
+  
 }
 
 const  article = (state = defaultState, action) => {

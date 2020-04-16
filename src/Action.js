@@ -1,5 +1,3 @@
-import ArticleList from "./components/ArticleList"
-
 const HOME_PAGE_LOADED = "HOME_PAGE_LOADED"
 const LOGIN = "LOGIN"
 const COMMON_PAGE="COMMON_PAGE"

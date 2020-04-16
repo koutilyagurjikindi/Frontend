@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import { Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import { bindActionCreators } from "redux";
-import { getCommon } from "./Action";
+import { getCommon, gethomepage } from "./Action";
 import {store} from "./index"
 import {push} from "react-router-redux"
 import Axios from "axios";
@@ -66,7 +66,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
   return {
-    OnCommon: bindActionCreators(getCommon,dispatch)
+    OnCommon: bindActionCreators(getCommon,dispatch),
+    OnApphome: bindActionCreators(gethomepage,dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

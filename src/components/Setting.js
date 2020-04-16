@@ -143,9 +143,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 class Settings extends React.Component {
-  componentWillMount() {
-    console.log(this.props.OnSettingDetails,this.props.OnSettingCommon);
-  }
   OnLogout=()=>{
     window.localStorage.removeItem('jwt')
     this.props.OnSetting({redirectTo:"/"})
