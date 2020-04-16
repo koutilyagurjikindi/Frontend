@@ -25,7 +25,6 @@ const Tags = props => {
               .catch(error=>{
                 console.log(error)
               })
-              //props.onClickTag(tag, agent.Articles.byTag(tag));
             };
 
             return (

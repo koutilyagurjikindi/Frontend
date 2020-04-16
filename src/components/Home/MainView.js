@@ -32,7 +32,7 @@ const YourFeedTab = props => {
       }
     })
     .then(response=>{
-      props.onTabClick('feed', response.data);
+      props.onTabClick({ articles:response.data.articles, tabs:"feed"});
     })
     .catch(error=>{
       console.log(error)
@@ -60,7 +60,7 @@ const GlobalFeedTab = props => {
       url:"https://conduit.productionready.io/api/articles?limit=10",
     })
     .then(response=>{
-      props.onTabClick('all', response.data);
+      props.onTabClick({ articles:response.data.articles, tabs:"all"});
     })
     .catch(error=>{
       console.log(error)
@@ -90,9 +90,9 @@ class MainView extends React.PureComponent {
         <YourFeedTab
             token={this.props.OnMainViewcommon.token}
             tab={this.props.OnMainViewhome.tabs}
-            onTabClick={this.props.onTabClick} />
+            onTabClick={this.props.OnMainViewHome} />
 
-          <GlobalFeedTab tab={this.props.OnMainViewhome.tabs} onTabClick={this.props.onTabClick} />
+          <GlobalFeedTab tab={this.props.OnMainViewhome.tabs} onTabClick={this.props.OnMainViewHome} />
 
           <TagFilterTab tag={this.props.OnMainViewhome.tag} />
 
