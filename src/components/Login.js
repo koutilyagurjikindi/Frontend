@@ -20,6 +20,7 @@ class Login extends React.Component {
       }
     })
     .then(response=>{
+      console.log(response)
       window.localStorage.setItem('jwt',response.data.user.token)
       this.props.OnToken({token:response.data.user.token,currentUser:response.data.user,redirectTo:'/'})
     })

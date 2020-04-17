@@ -9,7 +9,6 @@ import CommentContainer from "./CommentContainer"
 
 class Article extends React.PureComponent {
   componentDidMount(){
-    console.log(this.props.match.params.id)
    Axios({
      method:"get",
      url:`https://conduit.productionready.io/api/articles/${this.props.match.params.id}`,

@@ -9,7 +9,7 @@ import Tags from "./Tags"
 
 class Home extends React.PureComponent {
   UNSAFE_componentWillMount() {
-    if(this.props.OnHomecommon.token == null){
+    if(this.props.OnHomecommon.token !== null){
       this.props.onLoad({tabs:"feed"})
       Axios({
         method:"GET",
@@ -29,7 +29,7 @@ class Home extends React.PureComponent {
       this.props.onLoad({tabs:"all"})
       Axios({
         method:"GET",
-        url:"https://conduit.productionready.io/api/articles?limit=10&offset=20"
+        url:"https://conduit.productionready.io/api/articles?limit=10"
       })
       .then(response=>{
         console.log(response)

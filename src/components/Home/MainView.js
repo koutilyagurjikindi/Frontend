@@ -87,7 +87,7 @@ class MainView extends React.PureComponent {
         url:`https://conduit.productionready.io/api/articles?limit=10&offset=${page*10}`,
       })
       .then(response=>{
-       this.props.OnMainViewHome({ articles:response.data.articles, tabs:"all",articleCount:response.data.articlesCount,currentPage:page});
+      this.props.OnMainViewHome({ articles:response.data.articles,articleCount:response.data.articlesCount,currentPage:page});
       })
       .catch(error=>{
         console.log(error)

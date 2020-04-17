@@ -55,7 +55,6 @@ class FollowUserButton extends React.PureComponent {
 
 class Profile extends React.PureComponent {
   componentDidMount() {
-    console.log(this.props.match.params);
     Axios({
       method: "get",
       url: `https://conduit.productionready.io/api/profiles/${this.props.match.params.username}`,
@@ -76,7 +75,6 @@ class Profile extends React.PureComponent {
             articles: response.data.articles,
             articleCount: response.data.articlesCount,
           });
-          console.log(response);
         });
       })
       .catch(({ response }) => {
@@ -86,24 +84,22 @@ class Profile extends React.PureComponent {
   renderTabs() {
     return (
       <ul className="nav nav-pills outline-active">
-        <li className="nav-item">
-          <Link
-            className="nav-link active"
-            to={`/@${this.props.OnProfileprofile.profile.username}`}
-          >
-            My Articles
-          </Link>
-        </li>
+      <li className="nav-item">
+        <Link
+          className={(this.props.match.path !=="/@:username/favorites")?"nav-link active": "nav-link"}
+          to={`/@${this.props.OnProfileprofile.profile.username}`}>
+          My Articles
+        </Link>
+      </li>
 
-        <li className="nav-item">
-          <Link
-            className="nav-link"
-            to={`/@${this.props.OnProfileprofile.profile.username}/favorites`}
-          >
-            Favourite Articles
-          </Link>
-        </li>
-      </ul>
+      <li className="nav-item">
+        <Link
+          className={(this.props.match.path ==="/@:username/favorites")?"nav-link active": "nav-link"}
+          to={`/@${this.props.OnProfileprofile.profile.username}/favorites`}>
+          Favorited Articles
+        </Link>
+      </li>
+    </ul>
     );
   }
   render() {

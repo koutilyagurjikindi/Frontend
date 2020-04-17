@@ -16,7 +16,6 @@ class ProfileFavourites extends Profile{
       },
     })
       .then((response) => {
-        console.log(response)
         this.props.OnProfile({ profile: response.data.profile });
         Axios({
           method:"get",
@@ -35,6 +34,7 @@ class ProfileFavourites extends Profile{
       })
   }
   renderTabs() {
+    console.log(this.props.match)
     return (
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
