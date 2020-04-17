@@ -9,17 +9,18 @@ import Tags from "./Tags"
 
 class Home extends React.PureComponent {
   UNSAFE_componentWillMount() {
-    if(this.props.OnHomecommon.token){
+    if(this.props.OnHomecommon.token == null){
       this.props.onLoad({tabs:"feed"})
       Axios({
         method:"GET",
-        url:"https://conduit.productionready.io/api/articles/feed",
+        url:"https://conduit.productionready.io/api/articles/feed?limit=10",
         headers:{
           authorization: `Token ${this.props.OnHomecommon.token}`
         }
       })
       .then(response=>{
-        this.props.onLoad({articles:response.data.articles})
+        console.log(response.data)
+        this.props.onLoad({articles:response.data.articles,articleCount:response.data.articlesCount})
       })
       .catch(error=>{
         console.log(error);
@@ -28,10 +29,11 @@ class Home extends React.PureComponent {
       this.props.onLoad({tabs:"all"})
       Axios({
         method:"GET",
-        url:"https://conduit.productionready.io/api/articles"
+        url:"https://conduit.productionready.io/api/articles?limit=10&offset=20"
       })
       .then(response=>{
-        this.props.onLoad({articles:response.data.articles})
+        console.log(response)
+        this.props.onLoad({articles:response.data.articles,articleCount:response.data.articlesCount})
       })
       .catch(error=>{
         console.log(error);

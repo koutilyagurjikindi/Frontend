@@ -32,7 +32,7 @@ const YourFeedTab = props => {
       }
     })
     .then(response=>{
-      props.onTabClick({ articles:response.data.articles, tabs:"feed"});
+      props.onTabClick({ articles:response.data.articles, tabs:"feed",articleCount:response.data.articlesCount});
     })
     .catch(error=>{
       console.log(error)
@@ -60,7 +60,7 @@ const GlobalFeedTab = props => {
       url:"https://conduit.productionready.io/api/articles?limit=10",
     })
     .then(response=>{
-      props.onTabClick({ articles:response.data.articles, tabs:"all"});
+      props.onTabClick({ articles:response.data.articles, tabs:"all",articleCount:response.data.articlesCount});
     })
     .catch(error=>{
       console.log(error)
@@ -80,8 +80,36 @@ const GlobalFeedTab = props => {
 
 
 class MainView extends React.PureComponent {
+  onSetPage = page => {
+    if(this.props.OnMainViewhome.tabs == "all"){
+      Axios({
+        method:"get",
+        url:`https://conduit.productionready.io/api/articles?limit=10&offset=${page*10}`,
+      })
+      .then(response=>{
+       this.props.OnMainViewHome({ articles:response.data.articles, tabs:"all",articleCount:response.data.articlesCount,currentPage:page});
+      })
+      .catch(error=>{
+        console.log(error)
+      })
+    }else{
+      Axios({
+        method:"get",
+        url:`https://conduit.productionready.io/api/articles/feed?limit=10&offset=${page*10}`,
+        headers:{
+          authorization: `Token ${this.props.OnMainViewcommon.token}`
+        }
+      })
+      .then(response=>{
+        this.props.OnMainViewHome({ articles:response.data.articles, tabs:"feed",articleCount:response.data.articlesCount,currentPage:page});
+      })
+      .catch(error=>{
+        console.log(error)
+      })
+    }
+  }
   render() {
-    console.log(this.props.OnMainViewhome.tabs)
+    console.log(this.props.OnMainViewhome)
     return (
       <div className="col-md-9">
       <div className="feed-toggle">
@@ -100,6 +128,9 @@ class MainView extends React.PureComponent {
       </div>
       <ArticleList
       articles={this.props.OnMainViewhome.articles}
+      articlesCount={this.props.OnMainViewhome.articleCount}
+      currentPage={this.props.OnMainViewhome.currentPage}
+      onSetPage={this.onSetPage}
       />
       </div>
     );
@@ -116,7 +147,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch){
   return {
     OnMainViewHome:bindActionCreators(gethomepage,dispatch),
-    onTabClick: (tabs,payload) => dispatch({ type: 'CHANGE_TAB', tabs,payload})
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(MainView);

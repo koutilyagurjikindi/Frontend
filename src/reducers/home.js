@@ -2,7 +2,9 @@ const defaultState = {
   articles: null,
   tabs:"all",
   tags:null,
-  tag:null
+  tag:null,
+  currentPage:1,
+  articleCount:0
 };
 const home = function (state = defaultState, action) {
   switch (action.type) {

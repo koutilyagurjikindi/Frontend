@@ -1,5 +1,6 @@
 import React from "react";
 import ArticlePreview from "./ArticlePreview";
+import ListPagination from "./ListPagination"
 
 class ArticleList extends React.PureComponent {
   render() {
@@ -15,6 +16,12 @@ class ArticleList extends React.PureComponent {
         {this.props.articles.map((article) => {
           return <ArticlePreview article={article} key={article.slug} />;
         })}
+
+        <ListPagination
+       articlesCount={this.props.articlesCount}
+       currentPage={this.props.currentPage}
+       onSetPage={this.props.onSetPage}
+        />
       </div>
     );
   }
