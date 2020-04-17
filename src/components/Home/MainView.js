@@ -32,7 +32,7 @@ const YourFeedTab = props => {
       }
     })
     .then(response=>{
-      props.onTabClick({ articles:response.data.articles, tabs:"feed",articleCount:response.data.articlesCount});
+      props.onTabClick({ articles:response.data.articles, tabs:"feed",articleCount:response.data.articlesCount,currentPage:1});
     })
     .catch(error=>{
       console.log(error)
@@ -60,7 +60,7 @@ const GlobalFeedTab = props => {
       url:"https://conduit.productionready.io/api/articles?limit=10",
     })
     .then(response=>{
-      props.onTabClick({ articles:response.data.articles, tabs:"all",articleCount:response.data.articlesCount});
+      props.onTabClick({ articles:response.data.articles, tabs:"all",articleCount:response.data.articlesCount,currentPage:1});
     })
     .catch(error=>{
       console.log(error)
