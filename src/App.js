@@ -14,6 +14,7 @@ import Setting from "./components/Setting";
 import Article from "./Article"
 import Profile from "./components/Profile";
 import ProfileFavorites from "./components/ProfileFavourites"
+import Editor from "./components/Editor";
 
 class App extends React.PureComponent {
   componentWillMount(){
@@ -53,6 +54,8 @@ class App extends React.PureComponent {
           <Route path="/article/:id" component={Article} />
           <Route path="/@:username/favorites" component={ProfileFavorites} />
           <Route path="/@:username" component={Profile} />
+          <Route path="/editor/:slug" component={Editor} />
+          <Route path="/editor" component={Editor} />
         </Switch>
       </div>
     );

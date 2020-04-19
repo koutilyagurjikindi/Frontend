@@ -4,6 +4,9 @@ const COMMON_PAGE="COMMON_PAGE"
 const ARTICLE = "ARTICLE"
 const ARTICLELIST = "ARTICLELIST"
 const PROFILE = "PROFILE"
+const EDITOR = "EDITOR"
+
+
 
 const homepage = (data)=>{
   return {
@@ -80,5 +83,18 @@ const profile = data =>{
 export const getProfile = data => {
   return dispatch => {
     dispatch(profile(data))
+  }
+}
+
+const editor = data => {
+  return {
+    type:EDITOR,
+    payload:data
+  }
+}
+
+export const getEditor = data => {
+  return dispatch => {
+    dispatch(editor(data))
   }
 }
